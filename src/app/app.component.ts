@@ -1,142 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { mockData } from './mockdata/mockData';
 import { ColumnModel } from './model/cloumnModel';
-const mockData = [
-  {
-    firstName: 'Sebastian',
-    lastName: 'Eschweiler',
-    age: 24,
-    email: 'sebastian@gmail.com'
-  },
-  {
-    firstName: 'Yuvraj',
-    lastName: 'Singh',
-    age: 36,
-    email: 'yuvi@gmail.com'
-  },
-  {
-    firstName: 'Virat',
-    lastName: 'Kohli',
-    age: 28,
-    email: 'vk@gmail.com'
-  },
-  {
-    firstName: 'Sachin',
-    lastName: 'Tendulkar',
-    age: 38,
-    email: 'sachin@gmail.com'
-  },
-  {
-    firstName: 'Steve',
-    lastName: 'Palmer',
-    age: 23,
-    email: 'steve@gmail.com'
-  },
-  {
-    firstName: 'Steven',
-    lastName: 'Smith',
-    age: 34,
-    email: 'smith@gmail.com'
-  },
-  {
-    firstName: 'Ravindra',
-    lastName: 'Jadeja',
-    age: 27,
-    email: 'jadeja@gmail.com'
-  },
-  {
-    firstName: 'Shubmann',
-    lastName: 'Gill',
-    age: 19,
-    email: 'gill@gmail.com'
-  },
-  {
-    firstName: 'Rahul',
-    lastName: 'Dravid',
-    age: 37,
-    email: 'rahul@gmail.com'
-  },
-  {
-    firstName: 'Rohit',
-    lastName: 'Sharma',
-    age: 33,
-    email: 'rohit@gmail.com'
-  },
-  {
-    firstName: 'Ann',
-    lastName: 'Smith',
-    age: 16,
-    email: 'ann@gmail.com'
-  },
-  {
-    firstName: 'Shikhar',
-    lastName: 'Dhawan',
-    age: 29,
-    email: 'dhawan@gmail.com'
-  },
-  {
-    firstName: 'Andre',
-    lastName: 'Russell',
-    age: 25,
-    email: 'russell@gmail.com'
-  },
-  {
-    firstName: 'Sunil',
-    lastName: 'Narine',
-    age: 26,
-    email: 'narine@gmail.com'
-  },
-  {
-    firstName: 'Bhuvaneshwar',
-    lastName: 'Kumar',
-    age: 32,
-    email: 'bkumar@gmail.com'
-  },
-  {
-    firstName: 'Zaheer',
-    lastName: 'Khan',
-    age: 30,
-    email: 'zkhan@gmail.com'
-  },
-  {
-    firstName: 'Harbajan',
-    lastName: 'Singh',
-    age: 40,
-    email: 'hsingh@gmail.com'
-  },
-  {
-    firstName: 'Ravi',
-    lastName: 'Ashwin',
-    age: 32,
-    email: 'rashwin@gmail.com'
-  }
-];
-
-const dateMock = [
-  {
-    firstName: 'Sebastian',
-    date: '12/07/2006',
-    url: 'some',
-    lastName: 'Eschweiler',
-    age: 24,
-    email: 'sebastian@gmail.com'
-  },
-  {
-    firstName: 'Yuvraj',
-    date: '12/07/2006',
-    url: 'some',
-    lastName: 'Singh',
-    age: 36,
-    email: 'yuvi@gmail.com'
-  },
-  {
-    firstName: 'Virat',
-    date: '12/07/2006',
-    url: 'some',
-    lastName: 'Kohli',
-    age: 28,
-    email: 'vk@gmail.com'
-  },
-]
+import { BtnCellRenderer } from './shared/custom-grid/button/button-cell-renderer.component';
+import { ImgCellRenderer } from './shared/custom-grid/image/image-cell-renderer.component';
 
 @Component({
   selector: 'app-root',
@@ -146,9 +12,17 @@ const dateMock = [
 export class AppComponent implements OnInit {
   title = 'assignment';
   rowInput: ColumnModel;
-  // rows = mockData;
-  columnModelData: ColumnModel;
+  columnModelData: ColumnModel[];
   rowCustom;
+  rowData = [{
+    name: 'Sajjad Akram',
+    age: '10',
+    dob: '06/06/1995',
+    url: 'http://www.google.com'
+  }];
+
+  frameworkComponents;
+  rowsPerPage;
 
   columnDefs: any = [
     {
@@ -159,41 +33,47 @@ export class AppComponent implements OnInit {
       headerCheckboxSelectionFilteredOnly: true,
       checkboxSelection: true,
     },
-    { headerName: 'First Name', field: 'firstName' },
+    { headerName: 'Name', field: 'name', width: 180 },
     {
-      field: 'athlete',
+      field: 'View Row Data',
       cellRenderer: 'btnCellRenderer',
       cellRendererParams: {
-        clicked: function(field: any) {
-          alert(`${field} was clicked`);
+        clicked: function (field: any) {
+          alert(`You have Clicked ${field} row`);
         }
       },
-      minWidth: 150,
+      width: 126,
     },
     {
-            headerName: 'Date',
-            field: 'date',
-            type: ['dateColumn', 'nonEditableColumn'],
-            width: 220,
-          },
-    { headerName: 'URL', field: 'url' },
-    { headerName: 'Age', field: 'age' },
+      field: 'Emoji',
+      cellRenderer: 'imgCellRenderer',
+      width: 80,
+    },
+    {
+      headerName: 'Date Of Birth',
+      field: 'date',
+      type: ['dateColumn', 'nonEditableColumn'],
+      width: 120,
+    },
+    { headerName: 'URL', field: 'url', width: 160 },
+    { headerName: 'Age', field: 'age', width: 88 },
   ];
 
   ngOnInit() {
-    // this.paginationPageSize = 10;
-    this.columnModelData = {
-      itxt: 'a',
-      inum: 6,
-      idate: new Date('06/06/1995'),
-      iurl: new URL('http://www.google.com')
+    this.columnModelData = mockData
+    mockData.forEach(row => {
+      let arr: any = {};
+      arr.name = row.name;
+      arr.age = row.age.toString();
+      arr.dob = row.dob.toLocaleDateString();
+      arr.url = row.url.toString();
+      this.rowData.push(arr);
+    })
+    this.rowCustom = this.rowData;
+    this.frameworkComponents = {
+      btnCellRenderer: BtnCellRenderer,
+      imgCellRenderer: ImgCellRenderer
     }
-    console.log('Nodate:', this.columnModelData.idate);
-    console.log('url:', this.columnModelData.iurl);
-    const mydate = this.columnModelData.idate.toLocaleDateString();
-    const myurl = this.columnModelData.iurl.toString();
-    dateMock[0].date = mydate;
-    dateMock[0].url = myurl;
-    this.rowCustom = dateMock;
+    this.rowsPerPage = 10;
   }
 }

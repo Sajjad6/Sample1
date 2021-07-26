@@ -3,12 +3,14 @@ import { ICellRendererAngularComp } from "ag-grid-angular";
 import { ICellRendererParams, IAfterGuiAttachedParams } from "ag-grid-community";
 
 @Component({
-    selector: 'btn-cell-renderer',
+    selector: 'img-cell-renderer',
     template: `
-      <button (click)="btnClickedHandler()">Click me!</button>
+      <img src="../../../assets/emoji.png"
+      alt="loading..."
+      style="height: 24px;">
     `,
   })
-  export class BtnCellRenderer implements ICellRendererAngularComp {
+  export class ImgCellRenderer implements ICellRendererAngularComp {
     refresh(params: ICellRendererParams): boolean {
       throw new Error("Method not implemented.");
     }
@@ -21,7 +23,4 @@ import { ICellRendererParams, IAfterGuiAttachedParams } from "ag-grid-community"
       this.params = params;
     }
 
-    btnClickedHandler() {
-      this.params.clicked(this.params.data.name);
-    }
   }

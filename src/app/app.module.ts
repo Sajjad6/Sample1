@@ -8,18 +8,20 @@ import { AppComponent } from './app.component';
 import { CustomGridComponent } from './shared/custom-grid/custom-grid.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { BtnCellRenderer } from './shared/custom-grid/button/button-cell-renderer.component';
+import { ImgCellRenderer } from './shared/custom-grid/image/image-cell-renderer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CustomGridComponent,
-    BtnCellRenderer
+    BtnCellRenderer,
+    ImgCellRenderer
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    AgGridModule.withComponents([BtnCellRenderer])
+    AgGridModule.withComponents([BtnCellRenderer, ImgCellRenderer])
   ],
   providers: [],
   bootstrap: [AppComponent]
